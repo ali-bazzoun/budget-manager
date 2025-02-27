@@ -1,9 +1,8 @@
-from typing import Dict
-from user import User
+from models.user import User
 
 
 class MonthlyBudget:
-    def __init__(self, user_id: int, month: str, income: float, category_percentages: Dict[str, float]):
+    def __init__(self, user_id: int, month: str, income: float, category_percentages: dict[str, float]):
         if income < 0:
             raise ValueError("Total income cannot be negative.")
         
@@ -52,4 +51,4 @@ class MonthlyBudget:
             f'{self.category_allocations['rent']:,.2f} ({self.category_percentages['rent']:.1f}%)',
             f'{self.category_allocations['electricity']:,.2f} ({self.category_percentages['electricity']:.1f}%)',
             self.unallocated_funds,
-            ]
+        ]

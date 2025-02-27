@@ -1,7 +1,7 @@
 from typing import List, Dict
-from user import User
-from monthly_budget import MonthlyBudget
-from database import get_budget_data
+from models.user import User
+from models.monthly_budget import MonthlyBudget
+from repositories import get_budget_data
 
 class BudgetManager:
     def __init__(self, user: User):
