@@ -1,29 +1,27 @@
-# Budget Manager Project
+# Budget Manager
 
-A budget management application designed to help users track and manage their monthly expenses efficiently.
+A **budget management application** designed to help users efficiently track and manage their monthly expenses.
 
 ## Overview
 
-This application provides a comprehensive platform for users to:
+This application provides a **comprehensive platform** for users to:
 
 - Create and manage monthly budgets
 - Track income and expenses
 - Allocate funds to different categories
 - Monitor savings and expenditures
 
-## Features
+## Setup & Installation
 
-- User authentication and authorization
-- Monthly budget creation and management
-- Category-based expense tracking
-- Budget analysis and reporting
-- Data persistence using SQLite database
-
-## Setup
-
-To run the application:
+To run the application locally, follow these steps:
 
 1. Clone the repository
+
+   ```bash
+   git clone https://github.com/your-repo/budget-manager.git
+   cd budget-manager
+   ```
+
 2. Install dependencies:
 
    ```bash
@@ -35,3 +33,34 @@ To run the application:
    ```bash
    python database/db.py
    ```
+
+4. Run the application:
+
+   ```bash
+   python app.py
+   ```
+
+## Next Steps & Future Improvements
+
+This project is a work in progress, with several planned improvements and new features:
+
+### Codebase Refactoring
+
+- Improve the structure and organization of the repository.
+
+### Password Security Enhancement
+
+- Implement secure password encoding instead of storing plain text passwords.
+
+### Frontend Development
+
+- Develop a user-friendly frontend interface using **React** or **Flutter**.
+
+### Dynamic Categories
+
+- Allow users to **create, update, and delete** expense categories.
+
+### Dynamic SQL Commands
+
+- Refactor SQL queries to be more dynamic and adaptable.
+- Reduce the need for extensive code changes when modifying the database schema.

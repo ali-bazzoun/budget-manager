@@ -30,7 +30,7 @@ class BudgetManagerApp:
         """Handle authentication menu flow."""
         choice = self.menu_ui.display_auth_menu()
         
-        if choice == '1':  # Register
+        if choice == '1':   # Register
             registration_data = self.menu_ui.get_registration_details()
             self.current_user = self.auth_controller.register(*registration_data)
         elif choice == '2':  # Login
@@ -47,12 +47,12 @@ class BudgetManagerApp:
         choice = self.menu_ui.display_main_menu(self.current_user.username)
         
         if choice == '1':  # Add budget
-            budget_form_month, budget_form_income, budget_form_category_percentages = self.menu_ui.display_budget_form()
+            budget_form = self.menu_ui.display_budget_form()
             self.budget_controller.create_budget(
                 self.current_user.user_id,
-                budget_form_month,
-                budget_form_income,
-                budget_form_category_percentages
+                budget_form[0],  # month
+                budget_form[1],  # income
+                budget_form[2]  # category percentages
             )
         elif choice == '2':  # View budgets
             self.budget_controller.view_budgets(self.current_user)
@@ -68,14 +68,14 @@ class BudgetManagerApp:
             self.feedback_handler.display_invalid_option()
 
     def _handle_account_menu(self):
-        choice = self.menu_ui.display_user_account_menu()
-
-        if choice in ['1', '2', '3', '4']:  # Edit user
-            update_result = self.user_controller.update_profile(self.current_user, choice, input('New: '))
+        choice, new_value = self.menu_ui.display_user_account_menu()
+        if choice in ['1', '2', '3', '4']:      
+            update_result = self.user_controller.update_profile(self.current_user, choice, new_value)
             return update_result if update_result else self.current_user
         elif choice == '5':  # Delete account
             if self.user_controller.delete_account(self.current_user.user_id):
                 return None
+            return self.current_user
         elif choice == '6':  # Return to main menu
             return self.current_user
         else:

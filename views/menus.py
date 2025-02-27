@@ -23,14 +23,28 @@ class MenuUI:
     
     def display_user_account_menu(self):
         """Display the user account management menu and get user choice."""
+        update_fields = {
+            '1': 'username',
+            '2': 'first name',
+            '3': 'last name',
+            '4': 'password',
+        }
+
         print('\n===== User Account Settings =====')
-        print('1. Edit username')
-        print('2. Edit first name')
-        print('3. Edit last name')
-        print('4. Edit password')
+        for key, value in update_fields.items():
+            print(f'{key}. Edit {value}')
         print('5. Delete account')
         print('6. Return to main menu')
-        return input('Choose an option: ').strip()
+
+        choice = input('Choose an option: ').strip()
+
+        if choice in update_fields:
+            new_value = input(f'Enter new {update_fields[choice]}: ').strip()
+            return choice, new_value
+
+        return choice, None
+
+    
 
     
     def display_budget_form(self):
@@ -63,9 +77,6 @@ class MenuUI:
         password = input('Password: ').strip()
         
         return username, password
-    
-    def get_update_user_details(self, variable: str) -> str:
-        return input(f'New {variable}: ')
     
 
 
