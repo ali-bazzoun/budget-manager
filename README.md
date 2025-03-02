@@ -25,7 +25,7 @@ To run the application locally, follow these steps:
 2. Run the application:
 
    ```bash
-   python app.py
+   python3 main.py
    ```
 
 ## Next Steps & Future Improvements
