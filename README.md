@@ -22,19 +22,7 @@ To run the application locally, follow these steps:
    cd budget-manager
    ```
 
-2. Install dependencies:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Initialize the database:
-
-   ```bash
-   python database/db.py
-   ```
-
-4. Run the application:
+2. Run the application:
 
    ```bash
    python app.py
