@@ -1,6 +1,6 @@
 # Budget Manager
 
-A **budget management application** designed to help users efficiently track and manage their monthly expenses.
+A **budget management application** designed to help users efficiently track and manage their monthly expenses and savings.
 
 ## Overview
 
