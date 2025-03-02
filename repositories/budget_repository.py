@@ -17,7 +17,7 @@ class BudgetRepository:
 
         query = """--sql
         INSERT OR REPLACE INTO budgets
-        (user_id, month, income, saving_percent, rent_percent, electricity_percent)
+        (user_id, month, income, savings_percent, rent_percent, electricity_percent)
         VALUES (?,?,?,?,?,?)
         """
         
@@ -41,7 +41,7 @@ class BudgetRepository:
             query = """--sql
             SELECT id, user_id, month, income, savings_percent, rent_percent, electricity_percent, created_at
             FROM budgets
-            WHERE username = ? AND month = ?
+            WHERE user_id = ? AND month = ?
             """
             result = execute_query(query, (user_id, month), fetch_one=True)
             
@@ -52,6 +52,7 @@ class BudgetRepository:
                     'electricity': result[6]
                 }
                 return MonthlyBudget(
+                    user_id=user_id,
                     month=result[2],
                     income=result[3],
                     category_percentages=category_percentages

@@ -1,5 +1,3 @@
-from models.user import User
-
 
 class MonthlyBudget:
     def __init__(self, user_id: int, month: str, income: float, category_percentages: dict[str, float]):
@@ -24,24 +22,31 @@ class MonthlyBudget:
         # Calculate unallocated funds
         self.unallocated_funds = income - sum(self.category_allocations.values())
 
-    def __str__(self):
-        return (
-            f"Budget for {self.month}:\n"
-            f"Total Income: ${self.income:,.2f}\n"
-            f"Total Allocated: ${sum(self.category_allocations.values()):,.2f}\n"
-            f"Unallocated Funds: ${self.unallocated_funds:,.2f}"
-        )
+        # Calculate estimated expenses (electricity and rent)
+        self.estimated_expenses = (self.category_allocations['electricity'] + self.category_allocations['rent']) * 12
 
-    def summary(self):
-        """Returns a detailed breakdown of budget allocations."""
-        breakdown = "\n".join(
-            f"  - {category}: ${amount:,.2f} ({self.category_percentages[category]:.1f}%)"
-            for category, amount in self.category_allocations.items()
-        )
-        return (
-            f"Budget Breakdown for {self.month}:\n{breakdown}\n"
-            f"Unallocated Funds: ${self.unallocated_funds:,.2f}"
-        )
+    def __str__(self):
+        result = []
+
+        result.append(f"Budget for {self.month.capitalize()}:")
+
+        # 1. Total Income
+        result.append(f"Total Income: ${self.income:,.2f}")
+        # 2. Category Allocations
+        result.append(f"Total Allocations across {self.month.capitalize()}:")
+        for category, allocation in self.category_allocations.items():
+            result.append(f"  - {category.capitalize()}: ${allocation:,.2f}")
+        # 3. Unallocated Funds
+        result.append(f"Unallocated Funds: ${self.unallocated_funds:,.2f}")
+        # 4. Estimated Yearly Expenses (for Rent and Electricity) according to this month
+        result.append(f"Estimated Yearly Expenses (for Rent and Electricity) according to {self.month.capitalize()}: ${self.estimated_expenses:,.2f}")
+        # 5. Remaining Balance
+        result.append(f"Remaining Balance: ${self.income - self.category_allocations['rent'] - self.category_allocations['electricity']:,.2f}")
+        # 6. Dream Salary
+        result.append(f"Your Dream Salary (based on {self.month.capitalize()} income): ${self.income**2:,.2f}")
+
+        return "\n".join(result)
+    
     
     def get_list(self):
         return [

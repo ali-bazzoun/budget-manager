@@ -11,11 +11,11 @@ class BudgetController:
         try:
             budgets = self.budget_repo.get(user_id)
             if not budgets:
-                return None
+                return []
             return budgets
         except Exception as e:
             print(e)
-            return None
+            return []
 
     def get_budget_by_id(self, user_id: int, month: str) -> MonthlyBudget | None:
         """Retrieve a specific budget by user ID and month."""
@@ -35,7 +35,7 @@ class BudgetController:
             month: str,
             income: float,
             category_percentages: dict[str, float]
-            ) -> bool:
+        ) -> bool:
         
         budget = MonthlyBudget(
             user_id=user_id,
@@ -44,6 +44,30 @@ class BudgetController:
             category_percentages=category_percentages
         )
         return self.budget_repo.save(budget)
+    
+    def update_budget(self, user_id: int, month: str, field: str, new_value: str) -> bool:
+        try:
+            budget = self.budget_repo.get(user_id, month)
+            if not budget:
+                return False
+
+            if field == '1':
+                budget.income = float(new_value)
+            elif field == '2':
+                budget.category_percentages['savings'] = float(new_value)
+            elif field == '3':
+                budget.category_percentages['rent'] = float(new_value)
+            elif field == '4':
+                budget.category_percentages['electricity'] = float(new_value)
+
+            if self.budget_repo.save(budget):
+                return True
+            return False
+            
+        except Exception as e:
+            print(e)
+            return False
+
             
         
     def delete_budget(self, user_id: int, month: str) -> bool:     

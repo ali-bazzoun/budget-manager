@@ -40,9 +40,11 @@ def create_tables():
         rent_percent REAL NOT NULL,
         electricity_percent REAL NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        UNIQUE(user_id, month)
     )
     """
+
     execute_query(budget_table_query, commit=True)
 
 # Initialize the database when the module is imported

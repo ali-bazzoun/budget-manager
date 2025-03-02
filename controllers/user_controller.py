@@ -8,7 +8,7 @@ class UserController:
         self.user_repo = UserRepository()
         self.feedback_handler = FeedBackHandler()
 
-    def update_profile(self, user: User, choice: str, new_value: str) -> User | None:
+    def update_profile(self, user: User, field: str, new_value: str) -> User | None:
         
         fields = {
             '1': 'username',
@@ -17,8 +17,8 @@ class UserController:
             '4': 'password'
         }
 
-        if choice in fields:
-            setattr(user, fields[choice], new_value) 
+        if field in fields:
+            setattr(user, fields[field], new_value) 
         else: return None
 
 

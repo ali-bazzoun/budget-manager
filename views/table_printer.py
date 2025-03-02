@@ -1,24 +1,33 @@
-from typing import List
-
-
 class TablePrinter:
-    def __init__(self, data: List[List], keys: List):
-        self.data = data.insert(0, keys)
+    def __init__(self, headers: list[str], rows: list[list]):
+        self.headers = headers
+        self.rows = rows
 
-    def run(self):
-        # Find the maximum length for each column
-        column_widths = [max(len(str(item)) for item in column) for column in zip(*self.data)]
-        
-        # Print the header row
-        for i, header in enumerate(self.data[0]):
-            print(f"{header:{column_widths[i]}}", end=" | ")
-        print("\n" + "-" * (sum(column_widths) + len(column_widths) * 3 - 1))  # Divider line
-        
-        # Print the data rows
-        for row in self.data[1:]:
-            for i, cell in enumerate(row):
-                print(f"{cell:{column_widths[i]}}", end=" | ")
-            print() 
+    def get_column_widths(self) -> list[int]:
+        """Calculates the maximum width needed for each column."""
+        table_data = [self.headers] + self.rows
+        return [max(len(str(item)) for item in col) for col in zip(*table_data)]
+
+    def format_row(self, row: list, is_header: bool = False) -> str:
+        """Formats a row to align columns properly."""
+        column_widths = self.get_column_widths()
+        if is_header:
+            # Center-align headers
+            return " | ".join(f"{str(cell):^{column_widths[i]}}" for i, cell in enumerate(row))
+        else:
+            # Left-align data rows
+            return " | ".join(f"{str(cell):<{column_widths[i]}}" for i, cell in enumerate(row))
+
+    def generate_table(self) -> str:
+        """Generates and returns the formatted table as a string."""
+        column_widths = self.get_column_widths()
+        divider = "-" * (sum(column_widths) + len(column_widths) * 3 - 1)
+
+        table_lines = [self.format_row(self.headers, is_header=True), divider]
+        table_lines.extend(self.format_row(row) for row in self.rows)
+
+        return "\n".join(table_lines)
+
 
 # # Example data
 # data = [
