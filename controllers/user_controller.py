@@ -1,6 +1,6 @@
 from models import User
 from repositories.user_repository import UserRepository
-from views.menus import FeedBackHandler
+from views.feedback_handler import FeedBackHandler
 
 class UserController:
 

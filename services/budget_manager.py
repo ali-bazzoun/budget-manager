@@ -2,8 +2,18 @@ from controllers.budget_controller import BudgetController
 
 class BudgetManager:
     def __init__(self, user_id: int):
+        self.user_id = user_id
         self.budget_controller = BudgetController()
         self.monthly_budgets = self.budget_controller.get_all_budgets(user_id)
+        self.number_of_months = len(self.monthly_budgets)
+        self.total_income = sum(budget.income for budget in self.monthly_budgets)
+        self.total_category_allocations = self.calculate_category_allocations([budget.category_allocations for budget in self.monthly_budgets])
+        self.total_unallocated_funds = self.total_income - sum(self.total_category_allocations.values())
+        self.estimated_expenses = self.calculate_estimated_yearly_expenses(self.total_category_allocations, ['electricity', 'rent'], self.number_of_months)
+        self.dream_salary = self.calculate_dream_salary(self.total_income, self.number_of_months)
+
+    def refresh(self):
+        self.monthly_budgets = self.budget_controller.get_all_budgets(self.user_id)
         self.number_of_months = len(self.monthly_budgets)
         self.total_income = sum(budget.income for budget in self.monthly_budgets)
         self.total_category_allocations = self.calculate_category_allocations([budget.category_allocations for budget in self.monthly_budgets])
