@@ -43,7 +43,7 @@ class BudgetHandler:
     def _add_budget(self):
         budget_data = self.menu_ui.display_budget_form(self.state.current_user.user_id)
         self.controller.create_budget(*budget_data)
-        self._refresh_budget_manager()
+        self.state.budget_manager.refresh()
     
     def _display_summary(self):
         print(self.state.budget_manager)
@@ -64,9 +64,10 @@ class BudgetHandler:
                 choice,
                 new_value
             )
+            self.state.budget_manager.refresh()
         elif choice == '5':
             if self.controller.delete_budget(self.state.current_user.user_id, month):
-                return None
+                self.state.budget_manager.refresh()
     
     def _enter_account_menu(self):
         self.state.in_account_menu = True
@@ -78,10 +79,6 @@ class BudgetHandler:
     def _handle_exit(self):
         self.feedback.display_exit_message(self.state.current_user.username)
         self.state.is_running = False
-    
-    def _refresh_budget_manager(self):
-        from services.budget_manager import BudgetManager
-        self.state.budget_manager = BudgetManager(self.state.current_user.user_id)
     
     def _handle_invalid_choice(self):
         self.feedback.display_invalid_option()
