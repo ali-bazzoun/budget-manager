@@ -19,4 +19,4 @@ class AuthController:
             lastname=lastname,
         )
         result = self.user_repo.save(user)
-        return self.user_repo.find_by_id(user.user_id) if result else None
+        return self.login(username, password) if result else None

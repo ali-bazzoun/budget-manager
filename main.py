@@ -1,5 +1,3 @@
-# main.py - Application entry point
-
 from app import BudgetManagerApp
 
 if __name__ == "__main__":

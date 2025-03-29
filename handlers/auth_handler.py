@@ -1,11 +1,13 @@
 from controllers.auth_controller import AuthController
 from views.menu_ui import MenuUI
 from views.feedback_handler import FeedBackHandler
+from core import AppState
+from services.budget_manager import BudgetManager
 
 class AuthHandler:
     """Handles authentication workflow and related operations."""
     
-    def __init__(self, state):
+    def __init__(self, state: AppState):
         self.state = state
         self.menu_ui = MenuUI()
         self.feedback = FeedBackHandler()
@@ -26,14 +28,18 @@ class AuthHandler:
     
     def _handle_registration(self):
         registration_data = self.menu_ui.get_registration_details()
-        self.state.current_user = self.auth_controller.register(*registration_data)
+        user = self.auth_controller.register(*registration_data)
+        if user:
+            self.state.current_user = user
+            self.state.budget_manager = BudgetManager(self.state.current_user.user_id)
+        
     
     def _handle_login(self):
         login_data = self.menu_ui.get_login_details()
         user = self.auth_controller.login(*login_data)
         if user:
             self.state.current_user = user
-            self._initialize_budget_manager()
+            self.state.budget_manager = BudgetManager(self.state.current_user.user_id)
     
     def _handle_exit(self):
         self.feedback.display_exit_message()
@@ -42,8 +48,3 @@ class AuthHandler:
     def _handle_invalid_choice(self):
         self.feedback.display_invalid_option()
         self.handle_auth_flow()
-    
-    def _initialize_budget_manager(self):
-        if self.state.current_user:
-            from services.budget_manager import BudgetManager
-            self.state.budget_manager = BudgetManager(self.state.current_user.user_id)

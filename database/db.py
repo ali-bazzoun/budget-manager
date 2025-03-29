@@ -1,7 +1,9 @@
 import sqlite3
 
-def connect_db(db_file="budget-manager.db"):
-    return sqlite3.connect(db_file)
+def connect_db(db_file="budgetmanager.db"):
+    conn = sqlite3.connect(db_file)
+    conn.execute("PRAGMA foreign_keys = ON")
+    return conn
 
 def execute_query(query, params=(), commit=False, fetch_one=False, fetch_all=False):
     with connect_db() as conn:

@@ -1,11 +1,13 @@
+from models import User
+from services.budget_manager import BudgetManager
+
 class AppState:
     """Central class for managing application state."""
     
     def __init__(self):
-        self.current_user = None
-        self.budget_manager = None
-        self.is_running = True
-        self.in_account_menu = False
+        self.current_user: User = None
+        self.budget_manager: BudgetManager = None
+        self.is_running: bool = True
     
     @property
     def is_authenticated(self):

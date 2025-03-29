@@ -1,11 +1,12 @@
 from controllers.user_controller import UserController
 from views.menu_ui import MenuUI
 from views.feedback_handler import FeedBackHandler
+from core import AppState
 
 class AccountHandler:
     """Handles user account management workflow."""
     
-    def __init__(self, state):
+    def __init__(self, state: AppState):
         self.state = state
         self.menu_ui = MenuUI()
         self.feedback = FeedBackHandler()

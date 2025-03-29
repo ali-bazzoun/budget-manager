@@ -5,19 +5,19 @@ from database import execute_query
 
 class UserRepository:
 
-    def save(self, user: User, user_id: int | None = None) -> int | None:
+    def save(self, user: User, user_id: int | None = None) -> bool:
         """
         Saves a user to the database. If `user_id` is provided, update the existing user.
         Otherwise, insert a new user and return the new user ID.
         """
-        if user_id:
+        if user_id: # Update existing user
             query = """--sql
             UPDATE users 
             SET username = ?, password = ?, firstname = ?, lastname = ? 
             WHERE id = ?
             """
             params = (user.username, user.password, user.firstname, user.lastname, user_id)
-        else:
+        else: # Insert new user
             query = """--sql
             INSERT INTO users (username, password, firstname, lastname) 
             VALUES (?, ?, ?, ?)
@@ -25,11 +25,11 @@ class UserRepository:
             params = (user.username, user.password, user.firstname, user.lastname)
 
         try:
-            result = execute_query(query, params, commit=True)
-            return result if user_id else execute_query("SELECT last_insert_rowid()", fetch_one=True)[0]
+            execute_query(query, params, commit=True)
+            return True
         except IntegrityError:
             print("Error: Username already exists.")
-            return None
+            return False
         
     def delete(self, user_id: int) -> bool:
         query = "DELETE FROM users WHERE id = ?"

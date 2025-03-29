@@ -1,14 +1,11 @@
-from typing import Optional
-
-
 class User:
     def __init__(
         self,
         username: str,
         password: str,
-        firstname: Optional[str] = None,
-        lastname: Optional[str] = None,
-        user_id: Optional[int] = None
+        firstname: str | None = None,
+        lastname: str | None = None,
+        user_id: str | None = None
     ):
         self.user_id = user_id
         self.username = username

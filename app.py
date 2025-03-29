@@ -1,7 +1,6 @@
 from core.app_state import AppState
 from handlers.auth_handler import AuthHandler
-from handlers.account_handler import AccountHandler
-from handlers.budget_handler import BudgetHandler
+from handlers.main_menu_handler import MainMenuHandler
 
 class BudgetManagerApp:
     """Main application class coordinating high-level workflow."""
@@ -9,8 +8,7 @@ class BudgetManagerApp:
     def __init__(self):
         self.state = AppState()
         self.auth_handler = AuthHandler(self.state)
-        self.account_handler = AccountHandler(self.state)
-        self.budget_handler = BudgetHandler(self.state)
+        self.main_menu = MainMenuHandler(self.state)
     
     def run(self):
         """Main application loop."""
@@ -18,13 +16,5 @@ class BudgetManagerApp:
             if not self.state.is_authenticated:
                 self.auth_handler.handle_auth_flow()
             else:
-                self._handle_authenticated_flow()
-    
-    def _handle_authenticated_flow(self):
-        """Handle post-authentication workflow."""
-        handler = self._get_main_menu_handler()
-        handler.handle_main_flow()
-    
-    def _get_main_menu_handler(self):
-        return self.account_handler if self.state.in_account_menu else self.budget_handler
+                self.main_menu.handle_main_menu()
     
