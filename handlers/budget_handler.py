@@ -1,18 +1,15 @@
 from controllers.budget_controller import BudgetController
-from views.menu_ui import MenuUI
-from views.feedback_handler import FeedBackHandler
-from core import AppState
+from core import HandlerContext
+from handlers.base_handler import BaseHandler
 
-class BudgetHandler:
+class BudgetHandler(BaseHandler):
     """Handles ONLY budget-related menu operations"""
     
-    def __init__(self, state : AppState):
-        self.state = state
-        self.menu_ui = MenuUI()
-        self.feedback = FeedBackHandler()
+    def __init__(self, context: HandlerContext):
+        super().__init__(context)
         self.controller = BudgetController()
     
-    def handle_budget_menu(self):
+    def handle_menu(self):
         while True:
             choice = self.menu_ui.display_budget_menu(self.state.budget_manager)
             
@@ -57,6 +54,3 @@ class BudgetHandler:
         elif choice == '5':
             self.controller.delete_budget(self.state.current_user.user_id, month)
         self.state.budget_manager.refresh()
-    
-    def _handle_invalid_choice(self):
-        self.feedback.display_invalid_option()

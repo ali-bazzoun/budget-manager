@@ -17,4 +17,3 @@ class AppState:
         """Reset state on logout or account deletion"""
         self.current_user = None
         self.budget_manager = None
-        self.in_account_menu = False
