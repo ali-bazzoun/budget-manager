@@ -40,10 +40,6 @@ This project is a work in progress, with several planned improvements and new fe
 
 - Implement secure password encoding instead of storing plain text passwords.
 
-### Frontend Development
-
-- Develop a user-friendly frontend interface using **React** or **Flutter**.
-
 ### Dynamic Categories
 
 - Allow users to **create, update, and delete** expense categories.
